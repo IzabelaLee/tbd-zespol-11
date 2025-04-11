@@ -96,10 +96,9 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
 
 12. Add support for preemptible/spot instances in a Dataproc cluster
 
-    ***Link to the modified file:*** https://github.com/IzabelaLee/tbd-zespol-11/blob/master/modules/dataproc/main.tf
+    ***Link to the modified file:*** https://github.com/IzabelaLee/tbd-zespol-11/blob/master/modules/dataproc/main.tf***
 
     ***Inserted terraform code:***
-
     ![alt text](image-4.png) 
     
 
