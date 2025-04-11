@@ -14,19 +14,78 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
 
 3. In boostrap/variables.tf add your emails to variable "budget_channels".
 
+    Modified budget_channels:
+    ```
+    variable "budget_channels" {
+    type        = map(string)
+    description = "Budget notification channels"
+    default = {
+        marek-wiewiorka : "marek.wiewiorka@gmail.com"
+        katarzyna-zaleska : "kzaleska416@gmail.com"
+        katarzyna-witowska : "katarzyna.witowska8@gmail.com"
+        izabela-lengiewicz : "izabela.leng@gmail.com"
+    }
+    }
+    ```
+
 4. From avaialble Github Actions select and run destroy on main branch.
-   
+
+   ![alt text](doc/figures/task_4_destroy.png)
+
 5. Create new git branch and:
     1. Modify tasks-phase1.md file.
-    
-    2. Create PR from this branch to **YOUR** master and merge it to make new release. 
-    
-    ***place the screenshot from GA after succesfull application of release***
+
+    2. Create PR from this branch to **YOUR** master and merge it to make new release.
+
+    Succesfull application of release:
+   ![alt text](doc/figures/task_5_release.png)
 
 
 6. Analyze terraform code. Play with terraform plan, terraform graph to investigate different modules.
 
-    ***describe one selected module and put the output of terraform graph for this module here***
+    The chosen modules is **dataproc** located in `/modules/dataproc`.
+
+    Input variables are used to parametrize the cluster configuration. There are:
+    - `input_project_name` (required) - the GCP project where the resources will be in use.
+    - `input_subnet`(required) - the VPC subnet used for cluster networking.
+    - `input_image_version` (optional) - describes the Dataproc image version used for the cluster. Defaults to `2.1.27-ubuntu20`.
+    - `input_machine_type` (optional) - defines the machine type for both master and worker nodes. Defaults to `e2-medium`
+    - `input_region` (optional) - the GCP region where the Dataproc cluster will be deployed. Defaults to `europe-west1`.
+
+    The modules uses two key Google Cloud resources:
+    - `google_project_service.dataproc` - ensure that the Dataproc API is enabled for the project.
+    - `google_dataproc_cluster.tbd-dataproc-cluster` - defines and creates the Dataproc cluster itself with configuration.
+
+    Module has one output `dataproc_cluster_name`, which exposes the name of the created Dataproc cluster, which can be used e.g. by other modules.
+
+    The `terraform plan` command shows the actions Terraform will take. Below is a portion of its output::
+    ```
+    Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+    + create
+
+    Terraform will perform the following actions:
+
+    # google_dataproc_cluster.tbd-dataproc-cluster will be created
+    ...
+
+    # google_project_service.dataproc will be created
+    + resource "google_project_service" "dataproc" {
+        + disable_on_destroy = true
+        + id                 = (known after apply)
+        + project            = "tbd-2025l-335203"
+        + service            = "dataproc.googleapis.com"
+        }
+
+    Plan: 2 to add, 0 to change, 0 to destroy.
+
+    Changes to Outputs:
+    + dataproc_cluster_name = "tbd-cluster"
+    ```
+
+    Terraform graph for this module was generated using command `terraform graph -type=plan | dot -Tpng >graph.png`:
+    ![img.png](doc/figures/terrafrom_graph_dataproc.png)
+    Terraform uses the DOT language (graph description language). After installing Graphvix, it was possible to render a PNG image.
+
    
 7. Reach YARN UI
    
@@ -93,6 +152,26 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
 11. Find and correct the error in spark-job.py
 
     ***describe the cause and how to find the error***
+    Command used to run `spark-job.py`:
+    ```
+    gcloud dataproc jobs submit pyspark modules/data-pipeline/resources/spark-job.py --cluster=tbd-cluster --region=europe-west1
+    ```
+
+    First run of above command:
+
+    ![alt text](doc/figures/task_11_spark_error.png)
+
+    The identified error was due to an incorrect bucket. After applying the fix, the line below works correctly:
+    ```python
+    # original line
+    DATA_BUCKET = "gs://tbd-2025l-9900-data/data/shakespeare/"
+
+    # fixed line
+    DATA_BUCKET = "gs://tbd-2025l-335203-data/data/shakespeare/"
+    ```
+
+    Run finished successfully:
+    ![alt text](doc/figures/task_11_spark_fixed.png)
 
 12. Add support for preemptible/spot instances in a Dataproc cluster
 
