@@ -57,7 +57,7 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
     - Managing Task Execution: The driver is responsible for breaking down the application into tasks and assigning them to the worker nodes. Knowing the driver's address helps streamline this process and maintain proper control over execution.
 
 
-    ![alt text](<Diagram bez tytułu.drawio.png>)
+    ![alt text](<diagram-vpc-topology.png>)
 
 9. Create a new PR and add costs by entering the expected consumption into Infracost
 For all the resources of type: `google_artifact_registry`, `google_storage_bucket`, `google_service_networking_connection`
