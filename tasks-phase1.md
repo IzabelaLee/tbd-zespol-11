@@ -191,4 +191,5 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
         }
 
     Cluster details after release:
+    
     ![alt text](doc/figures/task_12.png)
