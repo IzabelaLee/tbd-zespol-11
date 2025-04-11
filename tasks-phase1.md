@@ -189,7 +189,6 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
         preemptible_worker_config {
             num_instances = 1
         }
-    
 
-
-    
+    Cluster details after release:
+    ![alt text](doc/figures/task_12.png)
