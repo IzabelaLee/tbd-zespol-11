@@ -49,11 +49,6 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
     - Infrastructure as Code Service Account (IaC SA):
     Utilized by infrastructure automation tools to provision and manage cloud infrastructure. In our setup, this account is used within GitHub Actions to authenticate and perform tasks such as deploying infrastructure automatically when changes are merged into the main branch.
 
-    ***List of buckets for disposal***
-
-    - code-bucket
-    - data-bucket
-    - notebook-conf
 
     ***Network Communication***
 
@@ -61,13 +56,8 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
 
     - Managing Task Execution: The driver is responsible for breaking down the application into tasks and assigning them to the worker nodes. Knowing the driver's address helps streamline this process and maintain proper control over execution.
 
-    - Ensuring Stability: If something goes wrong during execution, the system must know where the driver is running in order to recover tasks or reassign work, helping maintain stability and uptime.
 
-    - Optimizing Data Transfer: To allow efficient communication and data movement between nodes, the system needs to understand the network structure — including the driver's location within it.
-
-
-  
-    ***place your diagram here***
+    ![alt text](<Diagram bez tytułu.drawio.png>)
 
 9. Create a new PR and add costs by entering the expected consumption into Infracost
 For all the resources of type: `google_artifact_registry`, `google_storage_bucket`, `google_service_networking_connection`
@@ -106,7 +96,10 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
 
 12. Add support for preemptible/spot instances in a Dataproc cluster
 
-    ***place the link to the modified file and inserted terraform code***
+    ***Link to the modified file:*** https://github.com/IzabelaLee/tbd-zespol-11/blob/master/modules/dataproc/main.tf***
+
+    ***Inserted terraform code:***
+    ![alt text](image-4.png) 
     
 
 

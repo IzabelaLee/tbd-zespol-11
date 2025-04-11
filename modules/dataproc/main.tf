@@ -49,5 +49,17 @@ resource "google_dataproc_cluster" "tbd-dataproc-cluster" {
       }
 
     }
+
+    secondary_worker_config {
+            num_instances  = 1
+            preemptibility = "PREEMPTIBLE"
+            machine_type   = var.worker_machine_type
+      
+            disk_config {
+              boot_disk_type    = "pd-standard"
+              boot_disk_size_gb = 100
+            }
+  
+      }
   }
 }
